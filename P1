@@ -1,0 +1,99 @@
+m/boot/grub/menu.lst ->
+/boot/grub/grub.cfg -> confuguración del grub, esta en el del que instalases el grub
+
+¿mirar que coño es lilo?
+aprender a usar vi
+
+
+
+DEVUAN ->
+swap en un fichero -> swapon -> crear fichero -> dd if=/dev/random of=/SwapFile bs=1024 count=1048164
+reinstalar grub-> grub-install /dev/sda1su -
+
+SOLARIS-> cd /boot/grub -< vi grub.cfg
+		
+/usr/lib/grub2 -> aqui hay cosas creo nose
+
+
+maquina 75 gigas por si acaso
+
+OPENBSD DISCO -> WD0
+FREEBSD -> ADA0
+
+cuando instales DEVUAN y SOLARIS ->
+ entrar a OPENBSD , hacer fdisk -e wd0 y hacer update y write (te cargas el mbr, sino no te va a funcionar lo de la particion activa.
+	el grub hay que reinstalarlo en DEVUAN (grub-install --force /dev/sda1) y SOLARIS (/usr/lib/grub2/bios/sbin/grub-install --no-floppy --grub-directory=/rpool/boot/grub/i386-pc 
+	--pkglibdir=/usr/lib/grub2/bios/lib/grub/i386-pc --modules=minicmd reboot /dev/rdsk/c1d0s0)
+------------------------------------------------------------------------------------------------------------
+
+ORDEN DE INSTALAR ->
+ DEVUAN -> de primero. (cree particion primaria de 17 gigas,el grub ahi) + las otras 2 particiones de 17 gigas
+		dentro de la maquina -> crear swap file -> 
+				su -
+				swapon --show
+				dd if=/dev/random of=/swapfile bs=1024 count=1048576
+				chmod 600 /swapfile
+				mkswap /swapfile
+				swapon /swapfile
+				nano /etc/fstab
+				/swapfile swap swap defaults 0 0
+fdisk /dev/sda
+ahi marcas
+
+OPENBSD -> eliges particion, le das id (E2) y despues creas particiones logicas dentro de ella, qe son
+			-> a -> 9 gigas -> /
+			->b -> 2 gigas -> swap
+			->c -> no se usa
+			->d -> /tmp
+			->e -> /home
+		->para el grub ir a devuan y añadir en 7etc/grub.../40_custom:
+fdisk -e sd0
+flag n  # n = nº de partición que queremos que sea activa
+reboot				-
+
+FREEBSD-> para las particiones elegir AUTO USD y crear desde ahi -> la verdad es que es un puto cristo y llevo 1 hora.
+				-ada0            64 GB   MBR
+  ada0s1        16 GB   linux
+  ada0s2        16 GB   OPENBSD
+  ada0s3	    16 GB   BSD	
+    ada0s3a     11 GB   freebsd-ufs     /
+    ada0s3b     2.0 GB  freebsd-swap    none
+    ada0s3d     2.0 GB  freebsd-ufs     /var
+    ada0s3e     1.0 GB  freebsd-ufs     /home
+
+
+gpart show ada0
+gpart set -a active -i (num) ada0
+
+
+
+
+estoy hasTA LA PÒLLA YA VAN 3 VECES ME QUIERO SUICIDAR NO IRONICAMENTE QUE MALA LECHE JODER QUE COÑO OSTIA PUTA PENE
+
+
+-----------------------------------------------------------------------------------------------------------------------
+PARTICION ACTIVA -> 
+		solaris -> format -> fdisk y ya
+GRUBS:
+
+DEVUAN -> ir a /etc/grub
+menuentry "Solaris 10" {
+    set root=(hd0,1)
+    chainloader +1
+}
+
+menuentry "FreeBSD 13" {
+    set root=(hd0,2)
+    chainloader +1
+}bootadm list-menu
+
+menuentry "OpenBSD 7.0" {
+    set root=(hd0,3)
+    chainloader +1
+}
+
+
+
+SOLARIS -> hacer bootadm list-menu
+		crear un archivo custom.cfg en el directorio
+

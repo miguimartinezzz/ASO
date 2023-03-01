@@ -1,0 +1,5 @@
+FIRMARE TIPO EFI.
+
+/boot/efi/EFI -> ejecutables.
+
+copiar copia del kernel de ubuntu a la partición ESP (efi system partition)
