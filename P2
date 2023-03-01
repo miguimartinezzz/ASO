@@ -1,5 +1,29 @@
-FIRMARE TIPO EFI.
+ El esquema de particionado ser´a GPT para ambos S.O.
+ Ubuntu server tendr´a particiones (GPT) separadas para /, swap (2GB) y /home (1GB) usando el sistema de archivos ext4
+ NetBSD se instalara en particiones (GPT) separadas para /, swap (2GB) y /home (1GB), .
+ El nombre de la maquina sera aso2.
+ El usuario creado durante la instalación se llamara usuario y su passwd y el del root ser´an los mismos que para aso1
+ Los S.O. se instalar´an en ingles con el teclado correctamente configurado (no el teclado ingles)
 
-/boot/efi/EFI -> ejecutables.
+ Despues de instalados los dos operativos:
+ Crear en /etc/grub.d/40 custom tres menuentries MUY SIMPLESb con las siguientes funcionalidades
+	 Arranca una copia del kernel de ubuntu que est´a en la partici´on ESP (EFI System Partition)
+	 Hace chainload al cargador de NetBSD
+	 Carga NetBSD directamente
+ Instalar el cargador rEFInd
+ Configurar el refind para que en la pantalla principal solo aparezcan las opciones de arrancar ubuntu (mediante grub) y NetBSD (mediante su
+cargador). 
+las opciones de arrancar directamente el kernel de linux de la particion de linux, o el que se ha copiado en al partici´on EFI, deben aparecer en un submenu
 
-copiar copia del kernel de ubuntu a la partición ESP (efi system partition)
+to access the GPT the following commands can be used
+parted and gdisk on linux (some times fdisk will do)
+gpart on freeBSD
+gpt on netBSD
+format -e on Solaris
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+¿ojo? -> habilitar EFI antes de instalar nada
+-> elegir entre un disco de 32 o dos de 16
+elegí 1 de 32
+UBUNTU SERVER-> 
+formateo de disco creando particiones GPT (cuidado con tamaños) 
