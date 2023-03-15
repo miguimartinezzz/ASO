@@ -91,6 +91,8 @@ menuentry "OpenBSD 7.0" {
     set root=(hd0,3)
     chainloader +1
 }
+añadir las otras dos entradas correspondientes a los sistemas en si
+
 
 
 

@@ -27,3 +27,23 @@ format -e on Solaris
 elegí 1 de 32
 UBUNTU SERVER-> 
 formateo de disco creando particiones GPT (cuidado con tamaños) 
+
+mnt /dev/sda1 /mnt 
+cd /mnt/EFI
+-> puedes copiar cargador ubuntu a particion bsd o viceversa
+
+EN 40 CUSTOM ->
+menuentry LoaderNETBSD
+	set root=hd1,gpt1
+	chainloader /efi/NetBSD/bootx64.efi
+menuentry DirectNetBSD
+	set root=hd0,gpt2
+	insmod ufs2
+	knetbsd /netbsd 
+/etc/default -> cambiar parametros de timeout y visibilidad del menu
+
+dkctl wd0 list wedges
+gpart show wd0
+mount /dev/sda1 /mnt
+cp /boot/$file /boot/efi/EFI/arch/
+cp -R /mnt/EFI/NetBSD /boot/efi/EFI -> copiamos el cargador
