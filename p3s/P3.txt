@@ -1,0 +1,32 @@
+
+PARA INSTALAR FEDORA ->
+
+particion /boot/efi
+particion /
+particion /var
+particion swap
+particion /home 
+
+
+
+-> no tiene mucha mas ciencia
+
+para despues ->
+bajarte el archivo tar.gz  de syslinux y descomprimir
+crear en /boot/efi/EFI una carpeta SYSLINUX y una KERNELS
+
+en syslinux copiamos el syslinux.efi (/efi64)  y hacemos 
+yum install syslinux-efi64 
+
+vamos a /usr/share/syslinux/efi64 y copiamos todo lo de abhi en /boot...../SYSLINUX
+
+copiamos kernel e imagen (como en la anterior practica)
+
+creamos fichero de configuracion syslinux.cfg
+
+poco mas , configurar grub y crear entrada y listo
+(ojo que no hay update-grub)
+
+efibootmgr -c -L syslinux -l /EFI/SYSLINUX/syslinux.ef ->para que se pueda arrancar syslinux
+
+
