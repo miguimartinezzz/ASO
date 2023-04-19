@@ -1,0 +1,18 @@
+#!/usr/bin/expect -f
+
+if {$argc!=2} {
+   send_user "uso: $argv0 usuario password \n"
+   exit
+}
+
+set user [lindex $argv 0]
+set password [lindex $argv 1]
+
+spawn passwd $user
+expect "New Password: "
+send "$password\r"
+expect "Re-enter new Password: "
+send "$password\r"
+send "\r"
+expect eof
+

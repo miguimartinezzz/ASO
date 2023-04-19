@@ -1,0 +1,11 @@
+PRACTICA 6 -> CREACIÓN Y GESTIÓN DE USUARIOS.
+
+useradd -D -s /usr/bin/bash -> cambiamos shell por defecto
+
+
+useradd -m user001 -> crea el directorio home con la opcion -m
+passwd user001 -> añadimos contraseña
+
+useradd -m .... -p passwd  -> hay que pasarle el hash
+
+mkpasswd -> devuelve el hash

@@ -1,0 +1,132 @@
+xory -> interfaz grafica
+login grafico ->
+
+openbsd -> xenomd 
+
+system5 -> /etc/init.d/
+bsd _> /etc/rc.d/
+
+systemd _> systemctl      -> script incio servicios (login grafico)
+
+
+/sbin/runlevel -> 0 = apagada
+			1 = modo usuario
+			2/3/4/5 = lo que el admin quiera 
+
+bscar /etc/rc?d k hay cosas
+
+
+en systemV -> /etc/rc2.d/ssh _> link simbolico a /etc/init.d/ssh 
+borrar fichero enlace (innserv -r ssh)
+	comprobar con ls -ld /etc/rc2.d/*ssh
+restaurar enlace (innserv -d ssh)
+
+
+BSD
+/etc/rc.conf
+
+xdm_enable= "YES"
+	O
+slim_enable="yes"
+
+-> ACTIVA LOGIN GRAFICO
+nombre variable -> /etc/rc.d/rcvar -> te devuelve el nombre
+
+variable -> 
+predefinidas en /etc/default/rc.conf 
+sobreescribes con /etc/rc.conf 
+
+            O
+
+predefinidas en /etc/rc.conf , sobreescribes en /etc/rc.conf.local
+
+usas manual pa saber -> man rc.conf
+
+
+xterm -> xCristerm
+
+/.xinitrc -> buscar config en guglugluglu 
+
+/usr/pkg/bin/slim -> NETBSD .> arrancar slim en /etc/rc.local y añadir la linea anterior
+ 
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+AHORA SI, LA PRACTICA
+
+->Linux: devuan, fedora y ubuntu server
+1 Modificar (si es necesario) la configuraci´on del sistema de paquetes
+para que use el repositorio de red
+	
+	nano /etc/apt/sources.list 
+
+2 Instalar (si no est´a ya instalado) en entorno gr´afico mate (NO
+INSTALAR EL GNOME!!) y los paquetes de login gr´afico slim y/o
+lightdm.
+	
+	sudo apt install mate-desktop-environment
+	sudo apt install mate-desktop-environment-extras
+	sudo apt install lightdm lightdm-gtk-greeter
+	
+	dentro de ~/.xinitrc -> exec ck-launch-session mate-session
+	
+     sudo apt install lightdm 
+     dpkg-reconfigure lightdm 
+	
+	(borras xface) -> 	
+	apt-get purge xfconf xfce4-utils xfwm4 xfce4-session thunar xfdesktop4 exo-utils xfce4-panel xfce4-terminal
+	apt-get autoremove
+	
+	
+3 Instalar las virtualbox guest additions. (puede ser necesario instalar
+primero otros paquetes: build-essential dkms linux-headers
+...) (I Las Guest Additions se obtienen desde el VirtualBox en el men´u
+’devices->insert guest-additions CD image’)
+
+	sudo apt install build-essential dkms linux-headers-$(uname -r)
+	añades cd en devices
+	montas el cd
+	sh ./VBox...... .run -nox11
+	reboot
+    lsmod | grep vboxguest  -> para comprobar que lo instalaste
+
+	
+4 Instalar la utilidad strace
+
+apt-get install strace
+
+dnf makecache --refresh
+dnf -y install strace                       ->hecho en las 3
+
+
+
+
+
+OPENBSD ->
+1 Habilitar el login gr´afico (xenodm) e instalar el navegador firefox y el
+manejador de ventanas icewm del sistema de paquetes.
+
+creas archivo "/etc/rc.conf.local"
+añades la siguiente linea -> xenodm_flags=""
+
+pkg_add -v icewm
+pkg_add -v firefox
+
+2 Hacer que el usuario creado use ese manejador de ventanas (icewm);
+podemos hacer: # echo exec icewm > $HOME/.xsession
+
+
+3 Instalar el entorno mate y hacer que sea el entorno que ejecuta el
+usuario al entrar en la m´aquina
+
+https://gist.github.com/javashin/14d31cd6695d6b301df9565493d9a7ea
+https://www.patreon.com/posts/how-to-install-6-18039949
+
+4 Instalar el sistema de ports
+5 Usando el sistema de ports instalar el navegador links. Crear el
+paquete del navegador lynx. Instalarlo despu´es
+
+
+I (ayuda: en OpenBSD /etc/rc.conf.local tiene la configuraci´on de
+la m´aquina y /etc/rc.conf tiene las opciones posibles)
+
